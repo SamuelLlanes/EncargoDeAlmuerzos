@@ -4,6 +4,10 @@ Un programa básico que emula reservar pedidos en cafeterías.
 # Quienes somos
 
 <center>
+  <div align="center">
+  <h1>Texto centrado</h1>
+  <p>Este párrafo también está centrado.</p>
+</div>
   <p style="text-align: center;">ServeMe</p>
    
 
