@@ -2,7 +2,7 @@
 Un programa básico que emula reservar pedidos en cafeterías.
 
 <div align="center">
-  <h1> # ServeMe</h1>
+#  <h1>ServeMe</h1>
   <p>Jade Nicole Cárcamo Vásquez, Carlos Samuel Llanes Cornejo, Eliezer Alexander Martínez Chámul, Alejandra Jasmín Soriano Alvarado </p>
   <p>Escuela Superior de Economía y Negocios</p>
   <p>Negocios Digitales en la Economía Global</p>
