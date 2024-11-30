@@ -1,9 +1,6 @@
-
 import tkinter
 from tkinter import ttk 
 from tkinter import messagebox
-
-
 
 colores = [
         [ '#014d29' ],
@@ -14,93 +11,111 @@ colores = [
         [ '#feffff' ]
         ]
 
-pedido = []
+platosESEN = []
+platosUCA = []
+platosKey = []
 clientes = []
-cafeterias = []
+cafeterias = {'ESEN':'esen1234','UCA':'uca1234','Key Institute':'key1234'}
+cafeTemporal = [] ## Variable que almacena temporalmente la cafeteria elegida por los estudiantes
+temporal = "" ## Variable que almacena temporalmente cual cafetería está usando la plataforma
 pedidos = []
 
+## Pantalla de elección de usuario
 class pantalla1: 
 
     def __init__(self, root):
         self.root = root
-        self.root.title("Pantalla de inicio")
-        self.root.geometry("450x600")
-        self.root.config(bg = colores[1])
-        self.iniciar()
+        self.root.title("ServeMe")
+        self.root.geometry("450x600") ## Medidas de la pantalla
+        self.root.config(bg = colores[1]) ## Color de fondo de la pantalla
+        self.iniciar() ## Inicia la construccion de la pantalla 
 
     def iniciar(self):
-        bienvenida = tkinter.Label(self.root, text= "Bienvenido a ServeMe", font= "Garamond 20 bold",  bg= colores[1], fg= colores[0])
-        bienvenida.place(x= 80, y= 50)
+        bienvenida = tkinter.Label(self.root, text= "Bienvenido a\nServeMe", font= "Garamond 35 bold",  bg= colores[1], fg= colores[0])
+        bienvenida.place(x= 90, y= 50)
 
         seleccion = tkinter.Label(self.root, text= "Elige como ingresar", font= "Garamond 20 bold",  bg= colores[1], fg= colores[0])
-        seleccion.place(x= 80, y= 150)      
+        seleccion.place(x= 110, y= 190)      
 
-        # opcion para ingresar como alumno a reservar
+        ## Opción para ingresar como alumno a reservar
 
-        boton_cliente= tkinter.Button(self.root, text= "Cliente", font= "Calibri 20",command= self.ir_a_pantalla2, bg= colores[0], fg= colores[1])
-        boton_cliente.place(x= 150, y=250)
+        boton_cliente= tkinter.Button(self.root, text= "Cliente", font= "Poppins 20",command= self.ir_a_pantalla2, bg= colores[0], fg= colores[1], borderwidth= 0, relief= "solid",padx= 22, pady= 5)
+        boton_cliente.place(x= 150, y=270)
 
-        # opcion para ingresar al apartado de cafeteria
+        ## Opción para ingresar como cafetería
 
-        boton_cafe = tkinter.Button(self.root, text= "Cafeteria", font= "Calibri 20",command= self.ir_a_pantalla3, bg= colores[0], fg= colores[1])
-        boton_cafe.place(x= 150, y= 350)
+        boton_cafe = tkinter.Button(self.root, text= "Cafetería", font= "Poppins 20",command= self.ir_a_pantalla3, bg= colores[0], fg= colores[1], borderwidth= 0, relief= "solid", padx= 10, pady= 5)
+        boton_cafe.place(x= 150, y= 370)
 
-        # opcion para salir de la aplicacion
+        ## Opción para salir de la aplicación
 
-        boton_salir = tkinter.Button(self.root, text= "Salir", font= "Calibri 20",command=root.quit, bg= colores[1], fg= colores[0])
-        boton_salir.place(x= 170, y= 500)
+        boton_salir = tkinter.Button(self.root, text= "Salir", font= "Poppins 20",command=root.quit, bg= colores[1], fg= colores[0], borderwidth= 0, relief= "solid")
+        boton_salir.place(x= 190, y= 500)
 
+    ## Funcion para cambiar de pantalla 
     def ir_a_pantalla2(self):
-        self.root.destroy()
+        self.root.destroy() ##Cierra la pantalla actual
         nueva_ventana = tkinter.Tk()
-        pantalla2(nueva_ventana)
+        pantalla2(nueva_ventana) ##Abre la nueva pantalla
     
     def ir_a_pantalla3(self):
         self.root.destroy()
         nueva_ventana = tkinter.Tk()
         pantalla3(nueva_ventana)
 
+## Pantalla para que el cliente se registre
 class pantalla2:
     def __init__(self, root):
         self.root = root
-        self.root.title("Platos")
+        self.root.title("ServeMe")
         self.root.geometry("450x600")
         self.root.config(bg = colores[1])
         self.registrarse()
 
     def registrarse(self):
-        texto = tkinter.Label(self.root, text= "Registrate en ServeMe", font= "Calibri 20", bg= colores[1], fg= colores[0])
-        texto.place(x= 60, y= 100)
+        texto = tkinter.Label(self.root, text= "Regístrate en ServeMe", font= "Garamond 30 bold", bg= colores[1], fg= colores[0])
+        texto.place(x= 30, y= 70)
 
-        nombre_tex = tkinter.Label(self.root, text= "Escriba su nombre", font= "Calibri 20", bg= colores[1], fg= colores[0])
-        nombre_tex.place(x= 60, y= 200)
+        nombre_tex = tkinter.Label(self.root, text= "Escribe tu nombre", font= "Poppins 20", bg= colores[1], fg= colores[0])
+        nombre_tex.place(x= 60, y= 150)
 
-        nombre = tkinter.Entry(self.root,  font= "Calibri 20", bg= colores[5], fg= colores[4])
-        nombre.place(x= 60, y=250)
+        ## Entradas de textos para ingresar datos del cliente
+        nombre = tkinter.Entry(self.root,  font= "Poppins 18", bg= colores[5], fg= colores[4], width= 25, borderwidth= 0, relief= "solid")
+        nombre.place(x= 60, y=200)
         
-        ape_tex = tkinter.Label(self.root, text= "Escriba su apellido", font= "Calibri 20", bg= colores[1], fg= colores[0])
-        ape_tex.place(x= 60, y= 300)
+        ape_tex = tkinter.Label(self.root, text= "Escribe tu apellido", font= "Poppins 20", bg= colores[1], fg= colores[0])
+        ape_tex.place(x= 60, y= 240)
 
-        apellido = tkinter.Entry(self.root, font= "Calibri 20", bg= colores[5], fg= colores[4])
-        apellido.place(x= 60, y= 350)
+        apellido = tkinter.Entry(self.root, font= "Poppins 18", bg= colores[5], fg= colores[4], width= 25, borderwidth= 0, relief= "solid")
+        apellido.place(x= 60, y= 290)
 
+        Reservas = tkinter.Label(self.root, text= "Selecciona tu cafe preferida", font= "Poppins 20", bg= colores[1], fg= colores[0])
+        Reservas.place(x= 60, y= 330)
+
+        ## Elección de cafeteria para el cliente
+        cafeteria_menu = ttk.Combobox(self.root, font="Poppins 18", width=23)
+        cafeteria_menu.config(state= 'readonly')
+        cafeteria_menu['values'] = ("ESEN","UCA","Key Institute")
+        cafeteria_menu.place(x=60, y=380) 
+
+        ## Este boton captura los datos ingresados del cliente para ponerlos dentro de la lista clientes
         def boton_continuar():
+            global cafeTemporal
             nom = nombre.get()
             ape = apellido.get() 
-            if nom and ape: 
-                
-                clientes.append({"cliente": nom, "apellido": ape})
-                messagebox.showinfo(" Ha ingresado exitosamente")
-                boton_con = tkinter.Button(self.root, text= "Continuar", font= "Calibri 20", command= self.ir_a_pantalla4, bg= colores[0], fg= colores[1])
-                boton_con.place(x= 150, y= 500)
+            cafeTemporal = cafeteria_menu.get()
+            if nom and ape and cafeTemporal: ##Pendiente de decidir el tercer campo
+                clientes.append({"cliente": nom, "apellido": ape, "cafe":cafeTemporal, "reservación":""})
+                self.ir_a_pantalla4()
             else:
-                messagebox.showwarning("Complete ambos campos")
+                messagebox.showwarning("","Completa todos los campos")
                     
+        ## Al darle click a este botón se ejecuta la funcion anterior de boton_continuar
+        boton_regi = tkinter.Button(self.root, text= "Ingresar", font= "Poppins 20", command= boton_continuar, bg= colores[0], fg= colores[1],borderwidth= 0, relief= "solid", padx = 10, pady= 5)
+        boton_regi.place(x= 60, y= 450)   
 
-        boton_regi = tkinter.Button(self.root, text= "Registrarse", font= "Calibri 20", command= boton_continuar, bg= colores[0], fg= colores[1])
-        boton_regi.place(x= 150, y= 400)   
-
-        boton_regresar = tkinter.Button(self.root, text= "Regresar", font= "Calibri 20", command= self.ir_a_pantalla1, bg= colores[0], fg= colores[1])
+        ## Este boton regresa a la pantalla de inicio que es para elegir usuario
+        boton_regresar = tkinter.Button(self.root, text= "Regresar", font= "Poppins 15", command= self.ir_a_pantalla1, bg= colores[1], fg= colores[0], borderwidth= 0, relief= "solid")
         boton_regresar.place(x= 10, y= 5)
 
     def ir_a_pantalla1(self):
@@ -113,51 +128,56 @@ class pantalla2:
         nueva_ventana = tkinter.Tk()
         pantalla4(nueva_ventana)
     
-
+## Pantalla para que registren la cafeteria 
 class pantalla3:
     
     def __init__(self, root):
         self.root = root
-        self.root.title("Platos")
+        self.root.title("ServeMe")
         self.root.geometry("450x600")
         self.root.config(bg = colores[1])
         self.ingresar()
     
     def ingresar(self):
             
-        ServeMe = tkinter.Label(self.root, text= "ServeMe", font= "Garamond 30 bold", bg= colores[1], fg= colores[0])
-        ServeMe.place(x= 150, y= 100)
+        texto = tkinter.Label(self.root, text= "Regístrate en ServeMe", font= "Garamond 30 bold", bg= colores[1], fg= colores[0])
+        texto.place(x= 30, y= 70)
 
         Reservas = tkinter.Label(self.root, text= "Seleccionar cafetería", font= "Poppins 20", bg= colores[1], fg= colores[0])
-        Reservas.place(x= 100, y= 200)
+        Reservas.place(x= 60, y= 180)
 
-        cafeteria_menu = ttk.Combobox(self.root, font="Poppins 12", width=25)
-        cafeteria_menu['values'] = ["ESEN", "UCA", "UDB", "UFG", "Monica Herrera", "UJMD"]
-        cafeteria_menu.place(x=100, y=250)  
+        ## Este Combobox es para elegir cual es la cafeteria que se esta registrando 
+        cafeteria_menu = ttk.Combobox(self.root, font="Poppins 18", width=23)
+        cafeteria_menu.config(state= 'readonly')
+        cafeteria_menu['values'] = ("ESEN","UCA","Key Institute")
+        cafeteria_menu.place(x=60, y=230)  
 
         contra = tkinter.Label(self.root, text= "Contraseña", font= "Poppins 20", bg= colores[1], fg= colores[0])
-        contra.place(x= 100, y= 300)
+        contra.place(x= 60, y= 270)
 
-        password_entry = tkinter.Entry(self.root, font="Poppins 12", width=30, show="*")
-        password_entry.place(x=100, y=350)
+        ## Entrada de texto para ingresar la contraseña
+        password_entry = tkinter.Entry(self.root, font="Poppins 18", width=25, show="*", borderwidth= 0, relief= "solid")
+        password_entry.place(x=60, y=320)
 
-        def boton_continuar():
+        ## Este boton corrobora que los datos ingresados esten correctos
+        def boton_regis():
+            global temporal
             cafe = cafeteria_menu.get()
+            temporal = cafe
             con = password_entry.get() 
             if cafe and con: 
-
-                cafeterias.append({"cafe": cafe, "contra": con})
-                messagebox.showinfo(" Ha ingresado exitosamente")
-                boton_con = tkinter.Button(self.root, text= "Continuar", font= "Calibri 20", command= self.ir_a_pantalla5, bg= colores[0], fg= colores[1])
-                boton_con.place(x= 150, y= 500)
+                if con == cafeterias[cafe]:
+                    self.ir_a_pantalla5()
+                else:
+                    messagebox.showerror("","La contraseña es incorrecta")
             else:
-                messagebox.showwarning("Complete ambos campos")
+                messagebox.showwarning("","Complete ambos campos")
                     
+        ## Al darle click a este botón se ejecuta la funcion de boton_regis
+        boton_regi = tkinter.Button(self.root, text= "Ingresar", font= "Poppins 20", command= boton_regis, bg= colores[0], fg= colores[1],borderwidth= 0, relief= "solid", padx = 10, pady= 5)
+        boton_regi.place(x= 60, y= 450)  
 
-        boton_regi = tkinter.Button(self.root, text= "Registrarse", font= "Calibri 20", command= boton_continuar, bg= colores[0], fg= colores[1])
-        boton_regi.place(x= 150, y= 400)
-
-        boton_regresar = tkinter.Button(self.root, text= "Regresar", font= "Calibri 20", command= self.ir_a_pantalla1, bg= colores[0], fg= colores[1])
+        boton_regresar = tkinter.Button(self.root, text= "Regresar", font= "Poppins 15", command= self.ir_a_pantalla1, bg= colores[1], fg= colores[0], borderwidth= 0, relief= "solid")
         boton_regresar.place(x= 10, y= 5)
 
     def ir_a_pantalla5(self):
@@ -170,11 +190,11 @@ class pantalla3:
         nueva_ventana = tkinter.Tk()
         pantalla1(nueva_ventana)
 
-            
+## En esta pantalla la cafeteria agrega los platos que tendra disponible en el menú          
 class pantalla5:
     def __init__(self, root):
         self.root = root
-        self.root.title("Platos")
+        self.root.title("ServeMe")
         self.root.geometry("450x600")
         self.root.config(bg = colores[1])
         self.gest_menu()
@@ -182,31 +202,63 @@ class pantalla5:
 
     def gest_menu(self):
 
-        ServeMe = tkinter.Label(self.root, text= "ServeMe", font= "Garamond 30 bold",  bg= colores[1], fg= colores[0])
-        ServeMe.place(x= 60, y= 70)
+        ServeMe = tkinter.Label(self.root, text= "ServeMe", font= "Garamond 40 bold",  bg= colores[1], fg= colores[0])
+        ServeMe.place(x= 30, y= 70)
 
-        boton_agregar = tkinter.Button(self.root, text= "Agregar pedidos", font= "Calibri 20",command= self.ir_a_pantalla6, bg= colores[0], fg= colores[1])
-        boton_agregar.place(x= 60, y= 200)
+        nombre_texto = tkinter.Label(self.root, text= "Nombre del plato", font= "Poppins 20", bg= colores[1], fg= colores[0])
+        nombre_texto.place(x= 60, y= 160)
 
-        boton_ver = tkinter.Button(self.root, text= "Ver pedidos", font= "Calibri 20",command= self.ir_a_reservacion, bg= colores[0], fg= colores[1])
-        boton_ver.place(x= 60, y= 300)
+        nombre = tkinter.Entry(self.root, font= "Poppins 18", bg= colores[5], fg= colores[4], width= 25, borderwidth= 0, relief= "solid")
+        nombre.place(x= 60, y= 210)
 
-        boton_regresar = tkinter.Button(self.root, text= "Regresar", font= "Calibri 20", command= self.ir_a_pantalla3, bg= colores[0], fg= colores[1])
+        des_texto = tkinter.Label(self.root, text= "Descripción del plato", font= "Poppins 20", bg= colores[1], fg= colores[0])
+        des_texto.place(x= 60, y= 260)
+
+        descripcion = tkinter.Entry(self.root, font= "Poppins 18", bg= colores[5], fg= colores[4], width= 25, borderwidth= 0, relief= "solid")
+        descripcion.place(x= 60, y= 310)
+
+        ## Este boton captura los datos ingresados y los agrega a las listas de cada menu segun la cafeteria 
+        def boton_agregar():
+            nombre_plato = nombre.get()
+            descripcion_plato = descripcion.get() 
+
+            if nombre_plato and descripcion_plato: 
+                if temporal == "ESEN":
+                    platosESEN.append({"nombre":nombre_plato,"descripción":descripcion_plato})
+                    messagebox.showinfo("","El plato fue agregado al menú")
+                elif temporal == "UCA":
+                    platosUCA.append({"nombre":nombre_plato,"descripción":descripcion_plato})
+                    messagebox.showinfo("","El plato fue agregado al menú")
+                elif temporal == "Key Institute":
+                    platosKey.append({"nombre":nombre_plato,"descripción":descripcion_plato})
+                    messagebox.showinfo("","El plato fue agregado al menú")
+            else:
+                messagebox.showwarning("Complete ambos campos")
+                
+        ## Al darle click a este boton se ejecuta la funcion de boton_agregar
+        boton_agre = tkinter.Button(self.root, text= "Agregar al menú", font= "Poppins 20", command= boton_agregar, bg= colores[0], fg= colores[1], borderwidth= 0, relief= "solid")
+        boton_agre.place(x= 60, y= 380)
+
+        ## Este boton dirije a la pantalla de reservaciones 
+        boton_ver = tkinter.Button(self.root, text= "Ver pedidos", font= "Poppins 15",command= self.ir_a_reservacion, bg= colores[0], fg= colores[1], borderwidth= 0, relief= "solid")
+        boton_ver.place(x= 240, y= 490)
+
+        ## Este boton dirije a la pantalla del menu
+        boton_ver_menu = tkinter.Button(self.root, text= "Ver menú actual", font= "Poppins 15",command= self.ir_a_menuactual, bg= colores[0], fg= colores[1], borderwidth= 0, relief= "solid")
+        boton_ver_menu.place(x= 60, y= 490)
+
+        ## Este boton regresa a la pantalla anterior que es la de registrarse 
+        boton_regresar = tkinter.Button(self.root, text= "Regresar", font= "Poppins 15", command= self.ir_a_pantalla3, bg= colores[1], fg= colores[0], borderwidth= 0, relief= "solid")
         boton_regresar.place(x= 10, y= 5)
 
-        boton_inicio = tkinter.Button(self.root, text= "Inicio", font= "Calibri 20", command= self.ir_a_pantalla1, bg= colores[0], fg= colores[1])
-        boton_inicio.place(x= 300, y= 5)
+        boton_inicio = tkinter.Button(self.root, text= "Inicio", font= "Poppins 15", command= self.ir_a_pantalla1, bg= colores[1], fg= colores[0], borderwidth= 0, relief= "solid")
+        boton_inicio.place(x= 380, y= 5)
 
     def ir_a_pantalla1(self):
         self.root.destroy()
         nueva_ventana = tkinter.Tk()
         pantalla1(nueva_ventana)   
     
-    def ir_a_pantalla6(self):
-        self.root.destroy()
-        nueva_ventana = tkinter.Tk()
-        pantalla6(nueva_ventana)
-
     def ir_a_pantalla3(self):
         self.root.destroy()
         nueva_ventana = tkinter.Tk()
@@ -217,53 +269,125 @@ class pantalla5:
         nueva_ventana = tkinter.Tk()
         reservacion(nueva_ventana)
 
+    def ir_a_menuactual(self):
+        self.root.destroy()
+        nueva_ventana = tkinter.Tk()
+        MenuActual(nueva_ventana)
 
-
-class pantalla6:
+## En esta pantalla el cliente elige el plato que desea reservar
+class pantalla4:
     def __init__(self, root):
         self.root = root
-        self.root.title("Agregar platos")
+        self.root.title("ServeMe")
         self.root.geometry("450x600")
         self.root.config(bg = colores[1])
-        self.agregar_plato()
+        self.reservar_plato()
 
+    def reservar_plato(self):
 
-    def agregar_plato(self):
+        titulo = tkinter.Label(self.root, text= "ServeMe", font= "Garamond 40 bold", bg= colores[1], fg= colores[0])
+        titulo.place(x= 30, y= 70)
 
-        boton_regresar = tkinter.Button(self.root, text= "Regresar", font= "Calibri 20", command= self.ir_a_pantalla5, bg= colores[0], fg= colores[1])
+        plato = tkinter.Label(self.root, text= "Seleccionar plato", font= "Poppins 20", bg= colores[1], fg= colores[0])
+
+        NoHay = tkinter.Label(self.root, text= "Aún no se ha\nagregado el menú\n:(", font= "Poppins 20", bg= colores[1], fg= colores[0])
+
+        ## Este boton captura los datos que eligio el cliente
+        def boton_reservar():
+            reservacion = menu.get()
+            clientes[-1]['reservación'] = reservacion
+            messagebox.showinfo("","¡Plato reservado exitosamente!. Puede pasar a recogerlo a las 12:00pm. Gracias por usar esta app <3")
+            self.ir_a_pantalla1()
+ 
+        ## Al darle click a este boton se ejecuta la funcion de boton_reservar
+        boton_reser = tkinter.Button(self.root, text= "Reservar", font= "Poppins 20", command= boton_reservar, bg= colores[0], fg= colores[1], borderwidth= 0, relief= "solid")
+        
+        ## Este condicional muestra el menu dependiendo de la universidad seleccionada
+        if cafeTemporal == "ESEN":
+            if len(platosESEN) == 0:
+                NoHay.place(x= 120, y=170)
+            else:
+                plato.place(x= 60, y= 230)
+                for p in platosESEN:
+                    menu = ttk.Combobox(self.root, font="Poppins 18", width=25)
+                    menu.config(state= 'readonly')
+                    menu['values'] = [f"{p['nombre']} - {p['descripción']}" for p in platosESEN]
+                    menu.place(x=60, y=300)
+                boton_reser.place(x= 60, y= 350)
+        elif cafeTemporal == "UCA":
+            if len(platosUCA) == 0:
+                NoHay.place(x= 120, y=300)
+            else:
+                plato.place(x= 60, y= 230)
+                for p in platosUCA:
+                    menu = ttk.Combobox(self.root, font="Poppins 18", width=25)
+                    menu.config(state= 'readonly')
+                    menu['values'] = [f"{p['nombre']} - {p['descripción']}" for p in platosUCA]
+                    menu.place(x=60, y=300)
+                boton_reser.place(x= 60, y= 350)
+        elif cafeTemporal == "Key Institute":
+            if len(platosKey) == 0:
+                NoHay.place(x= 120, y=300)
+            else:
+                plato.place(x= 60, y= 230)
+                for p in platosKey:
+                    menu = ttk.Combobox(self.root, font="Poppins 18", width=25)
+                    menu.config(state= 'readonly')
+                    menu['values'] = [f"{p['nombre']} - {p['descripción']}" for p in platosKey]
+                    menu.place(x=60, y=300)
+                boton_reser.place(x= 60, y= 350)
+            
+        boton_regresar = tkinter.Button(self.root, text= "Regresar", font= "Poppins 15", command= self.ir_a_pantalla2, bg= colores[1], fg= colores[0], borderwidth= 0, relief= "solid")
         boton_regresar.place(x= 10, y= 5)
 
-        ServeMe = tkinter.Label(self.root, text= "ServeMe", font= "Garamond 30 bold",  bg= colores[1], fg= colores[0])
-        ServeMe.place(x= 100, y= 80)
-        nombre_texto = tkinter.Label(self.root, text= "Agregar plato", font= "Calibri 20", bg= colores[1], fg= colores[0])
-        nombre_texto.place(x= 60, y= 200)
+        boton_inicio = tkinter.Button(self.root, text= "Inicio", font= "Poppins 15", command= self.ir_a_pantalla1, bg= colores[1], fg= colores[0], borderwidth= 0, relief= "solid")
+        boton_inicio.place(x= 380, y= 5)
 
-        nombre = tkinter.Entry(self.root, text= "Agregar plato", font= "Calibri 20", bg= colores[5], fg= colores[4])
-        nombre.place(x= 60, y= 250)
+    def ir_a_pantalla2(self):
+        self.root.destroy()
+        nueva_ventana = tkinter.Tk()
+        pantalla2(nueva_ventana)
 
-        des_texto = tkinter.Label(self.root, text= "Agregar descripcion", font= "Calibri 20", bg= colores[1], fg= colores[0])
-        des_texto.place(x= 60, y= 300)
+    def ir_a_pantalla1(self):
+        self.root.destroy()
+        nueva_ventana = tkinter.Tk()
+        pantalla1(nueva_ventana) 
 
-        descripcion = tkinter.Entry(self.root, text= "Agregar descripcion", font= "Calibri 20", bg= colores[5], fg= colores[4])
-        descripcion.place(x= 60, y= 350)
+## Pantalla donde se muestran los platos reservados
+class reservacion:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("ServeMe")
+        self.root.geometry("450x600")
+        self.root.config(bg = colores[1])
+        self.reservacion()
+
+    def reservacion(self):
+        PReservados = tkinter.Label(self.root, text= "Platos reservados", font= "Garamond 30 bold", bg= colores[1], fg= colores[0])    
+        PReservados.place(x = 30, y= 70)
+
+        listbox = tkinter.Listbox(self.root, height= 25, width= 50, borderwidth= 0, relief= "solid", font= "Poppins 9")
+        listbox.place(x= 50, y= 150)
         
-        def boton_agregar():
-            nombre_plato = nombre.get()
-            descripcion_plato = descripcion.get() 
+        ## Condicional que enlista los platos reservados según la universidad
+        if temporal == "ESEN":
+            for q in clientes:
+                if q['cafe'] == "ESEN":
+                    listbox.insert(tkinter.END, f"{q['cliente']} {q['apellido']}: {q['reservación']}")
+        elif temporal == "UCA":
+            for q in clientes:
+                if q['cafe'] == "UCA":
+                    listbox.insert(tkinter.END, f"{q['cliente']} {q['apellido']}: {q['reservación']}")
+        elif temporal == "Key Institute":
+            for q in clientes:
+                if q['cafe'] == "Key Institute":
+                    listbox.insert(tkinter.END, f"{q['cliente']} {q['apellido']}: {q['reservación']}")
+    
+        boton_regresar = tkinter.Button(self.root, text= "Regresar", font= "Poppins 15", command= self.ir_a_pantalla5, bg= colores[1], fg= colores[0], borderwidth= 0, relief= "solid")
+        boton_regresar.place(x= 10, y= 5)
 
-            if nombre_plato and descripcion_plato: 
-            
-                pedido.append({"nombre": nombre_plato, "descripcion": descripcion_plato})
-                messagebox.showinfo(" El plato fue agregado con éxito")
-            else:
-                messagebox.showwarning("Complete ambos campos")
-                
-
-        boton_agre = tkinter.Button(self.root, text= "Agregar", font= "Calibri 20", command= boton_agregar, bg= colores[0], fg= colores[1])
-        boton_agre.place(x= 60, y= 500)
-
-        boton_inicio = tkinter.Button(self.root, text= "inicio", font= "Calibri 20", command= self.ir_a_pantalla1, bg= colores[0], fg= colores[1])
-        boton_inicio.place(x= 1000, y= 5)
+        boton_inicio = tkinter.Button(self.root, text= "Inicio", font= "Poppins 15", command= self.ir_a_pantalla1, bg= colores[1], fg= colores[0], borderwidth= 0, relief= "solid")
+        boton_inicio.place(x= 380, y= 5)
 
     def ir_a_pantalla1(self):
         self.root.destroy()
@@ -275,143 +399,39 @@ class pantalla6:
         nueva_ventana = tkinter.Tk()
         pantalla5(nueva_ventana)
 
-class pantalla4:
-    def __init__(self, root):
+## Pantalla que muestra el menú que ha ingresado la cafetería
+class MenuActual:
+    def __init__(self,root):
         self.root = root
-        self.root.title("Reservar plato")
+        self.root.title("ServeMe")
         self.root.geometry("450x600")
         self.root.config(bg = colores[1])
-        self.reservar_plato()
-
-    def reservar_plato(self ):
-
-        titulo = tkinter.Label(self.root, text= "ServeMe", font= "Garamond 30 bold", bg= colores[1], fg= colores[0])
-        titulo.place(x= 100, y= 100)
-
-        Menu = tkinter.Label(self.root, text= "Menú", font= "Calibri 20", bg= colores[1], fg= colores[0])
-        Menu.place(x= 100, y= 200)
-
-        plato = tkinter.Label(self.root, text= "Seleccionar plato", font= "Poppins 20", bg= colores[1], fg= colores[0])
-        plato.place(x= 100, y= 200)
-
-        for plato in pedido:
-            menu = ttk.Combobox(self.root, font="Poppins 12", width=25)
-            menu['values'] = [f"{plato['nombre']} - {plato['descripcion']}" for plato in pedido]
-            menu.place(x=100, y=250)
+        self.menu()
         
-        def boton_continuar():
-            reservacion = menu.get()
+    def menu(self):
 
-            if reservacion:
-                pedidos.append({"plato": reservacion})
-                messagebox.showinfo(" Ha ingresado exitosamente")
-                boton_re = tkinter.Button(self.root, text= "Continuar", font= "Calibri 20", command= self.ir_a_reserva1, bg= colores[0], fg= colores[1])
-                boton_re.place(x= 150, y= 400)
-            else:
-                messagebox.showwarning("Complete ambos campos")
-                    
+        MenuDelDia = tkinter.Label(self.root, text= "Menú", font= "Garamond 30 bold", bg= colores[1], fg= colores[0])    
+        MenuDelDia.place(x = 30, y= 70)
 
-        boton_reser = tkinter.Button(self.root, text= "Reservar", font= "Calibri 20", command= boton_continuar, bg= colores[0], fg= colores[1])
-        boton_reser.place(x= 150, y= 350)
+        listbox = tkinter.Listbox(self.root, height= 25, width= 50, borderwidth= 0, relief= "solid", font= "Poppins 9")
+        listbox.place(x= 50, y= 150)
 
-        boton_regresar = tkinter.Button(self.root, text= "Regresar", font= "Calibri 20", command= self.ir_a_pantalla2, bg= colores[0], fg= colores[1])
+        ## Condicional que enlista los platos según la universidad
+        if temporal == "ESEN":
+            for q in platosESEN:
+                listbox.insert(tkinter.END, f"{q['nombre']} - {q['descripción']}")
+        elif temporal == "UCA":
+            for q in platosUCA:
+                listbox.insert(tkinter.END, f"{q['nombre']} - {q['descripción']}")
+        elif temporal == "Key Institute":
+            for q in platosKey:
+                listbox.insert(tkinter.END, f"{q['nombre']} - {q['descripción']}")
+
+        boton_regresar = tkinter.Button(self.root, text= "Regresar", font= "Poppins 15", command= self.ir_a_pantalla5, bg= colores[1], fg= colores[0], borderwidth= 0, relief= "solid")
         boton_regresar.place(x= 10, y= 5)
 
-    def ir_a_pantalla2(self):
-        self.root.destroy()
-        nueva_ventana = tkinter.Tk()
-        pantalla2(nueva_ventana)
-
-    def ir_a_reserva1(self):
-        self.root.destroy()
-        nueva_ventana = tkinter.Tk()
-        reserva1(nueva_ventana)
-
-class reserva1:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Reserva exitosa")
-        self.root.geometry("450x600")
-        self.root.config(bg = colores[1])
-        self.reserva1()
-
-    def reserva1(self):
-        ReservaExitosa = tkinter.Label(self.root, text= "¡Reserva\nexitosa!", font= "Garamond 30 bold", bg= colores[1], fg= colores[0])
-        ReservaExitosa.place(x= 150, y= 50)
-
-        Menu = tkinter.Label(self.root, text= "¿Pedir algo \n más?", font= "Poppins 20", bg= colores[1], fg= colores[0])
-        Menu.place(x= 150, y= 180)
-
-        BotonSi = tkinter.Button(self.root, text= "Sí", font= "Poppins 20", bg= colores[0], fg= colores[1], width= 6, command= self.ir_a_pantalla4)
-        BotonSi.place(x= 110, y= 280)
-
-        BotonNo = tkinter.Button(self.root, text= "No", font= "Poppins 20", bg= colores[0], fg= colores[1], width= 6, command= self.ir_a_reserva)
-        BotonNo.place(x= 240, y= 280)
-
-        boton_inicio = tkinter.Button(self.root, text= "Inicio", font= "Calibri 20", command= self.ir_a_pantalla1, bg= colores[0], fg= colores[1])
-        boton_inicio.place(x= 300, y= 5)
-
-    def ir_a_pantalla1(self):
-        self.root.destroy()
-        nueva_ventana = tkinter.Tk()
-        pantalla1(nueva_ventana) 
-
-    def ir_a_reserva(self):
-        self.root.destroy()
-        nueva_ventana = tkinter.Tk()
-        reserva(nueva_ventana)
-
-    def ir_a_pantalla4(self):
-        self.root.destroy()
-        nueva_ventana = tkinter.Tk()
-        pantalla4(nueva_ventana)
-
-class reserva:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Regresar")
-        self.root.geometry("450x600")
-        self.root.config(bg = colores[1])
-        self.reserva()
-
-    def reserva(self):
-
-            gracias = tkinter.Label(self.root, text= "Gracias por utilizar ServeMe\nPuede recoger su almuerzo\na partir de las 12:00pm", font= "Calibri 15", bg= colores[1], fg= colores[0])
-            gracias.place(x=130, y=180)
-            boton_gracias =tkinter.Button(self.root, text= "Cerrar", font= "Poppins 20", bg= colores[0], fg= colores[1], width= 6, command= self.ir_a_pantalla2)
-            boton_gracias.place(x= 150, y= 280)
-
-    def ir_a_pantalla2(self):
-        self.root.destroy()
-        nueva_ventana = tkinter.Tk()
-        pantalla2(nueva_ventana)
-
-class reservacion:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Regresar")
-        self.root.geometry("450x600")
-        self.root.config(bg = colores[1])
-        self.reservacion()
-
-    def reservacion(self):
-        ServeMe = tkinter.Label(self.root, text= "RESERVAS", font= "Garamond 30 bold", bg= colores[1], fg= colores[0])    
-        ServeMe.place(x = 100, y= 150)
-
-        listbox = tkinter.Listbox(self.root)
-        listbox.pack(padx=200, pady=300)
-            
-        for plato in pedidos :
-                listbox.insert(tkinter.END, f"{plato['plato']} ")
-        for cliente in clientes:
-                listbox.insert(tkinter.END, f"{cliente['cliente']}{cliente['apellido']} ")
-
-
-        boton_regresar = tkinter.Button(self.root, text= "Regresar", font= "Calibri 20", command= self.ir_a_pantalla5, bg= colores[0], fg= colores[1])
-        boton_regresar.place(x= 10, y= 5)
-
-        boton_inicio = tkinter.Button(self.root, text= "Inicio", font= "Calibri 20", command= self.ir_a_pantalla1, bg= colores[0], fg= colores[1])
-        boton_inicio.place(x= 300, y= 5)
+        boton_inicio = tkinter.Button(self.root, text= "Inicio", font= "Poppins 15", command= self.ir_a_pantalla1, bg= colores[1], fg= colores[0], borderwidth= 0, relief= "solid")
+        boton_inicio.place(x= 380, y= 5)
 
     def ir_a_pantalla1(self):
         self.root.destroy()
