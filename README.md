@@ -4,7 +4,8 @@ Un programa básico que emula reservar pedidos en cafeterías.
 # Quienes somos
 
 <center>
-  ServeMe 
+  <p>ServeMe</p>
+   
 
 Jade Nicole Cárcamo Vásquez, Carlos Samuel Llanes Cornejo, Eliezer Alexander Martínez Chámul, Alejandra Jasmín Soriano Alvarado 
 
