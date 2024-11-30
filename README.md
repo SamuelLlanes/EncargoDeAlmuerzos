@@ -15,18 +15,22 @@
 ServeMe es una aplicación para celular diseñada en Python, utilizando la interfaz grafica de TKinter. Tiene como objetivo facilitar la interacción entre clientes (estudiantes) y cafeterías. A los usuarios les permite reservar su plato; a las cafeterías les permite ver las reservas y agregar y gestionar sus menús.  
 
 ## Características principales 
+<ul>
+  <li>Interfaz de usuario, para estudiantes y para cafeterías, sencilla y amigable.</li>
+  <li>Pantalla de inicio para clientes y cafeterías.  </li>
+  <li>Registro de reservas por cliente.  </li>
+  <li>Gestión de menú para cafeterías. </li>
+  <li>Reserva de platos.  </li>
+</ul>
+ 
 
-Interfaz de usuario, para estudiantes y para cafeterías, sencilla y amigable.  
 
-Pantalla de inicio para clientes y cafeterías.  
 
-Registro de reservas por cliente.  
 
-Gestión de menú para cafeterías.  
 
-Reserva de platos.  
+ 
 
-🚀 ¡Este proyecto está en fase de lanzamiento!
+
 
   
 
